@@ -13,6 +13,24 @@ static void conjecture(int len, void* options, int sz, void fn(void*)); // Creat
 
 void assert(bool b); // Restore context if condition fails
 
+static void conjecture(int len, void* options, int sz, void fn(void*)){
+	// Create context and start traversal
+	int i= -1;
+	getcontext(&ctx);
+	i++;
+	if(i==len) exit(0);
+	fn(options+ (i*sz));
+} 
+
+void assert(bool b){ // Restore context if condition fails
+	if(!b){
+		// static ucontext_t current_ctx;
+		// getcontext(&current_ctx);
+		// swapcontext(&current_ctx, &ctx);
+		setcontext( &ctx );
+	}
+}
+
 bool is_prime(int x) {
 	for(int i = 2; i <= x/2; i ++) {
 		if(x % i == 0)
