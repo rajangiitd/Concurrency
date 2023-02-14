@@ -3,9 +3,9 @@ list:
 	./obj/list_test
 
 hashmap:
-	gcc -o obj/hashmap_test test/hashmap_test.c src/list.c src/hashmap.c
+	gcc -o obj/hashmap_test test/hashmap_test.c src/list.c src/hm.c
 	./obj/hashmap_test
 
 all:
-	gcc -o obj/main test/main.c src/list.c src/hashmap.c src/mythread.c
+	gcc -o obj/main test/main.c src/list.c src/hm.c src/mythread.c
 	./obj/main
