@@ -1,5 +1,6 @@
 
 #include "../include/list.h"
+#include <stdlib.h>
 
 struct list* list_new(){
 	struct list* mylist = (struct list*) malloc(sizeof(struct list));
