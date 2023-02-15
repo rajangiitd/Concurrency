@@ -1,6 +1,7 @@
 #include "mythread.h"
 #include "list.h"
 #define SZ 4096
+#include <string.h>
 
 struct hashmap_element_s {
   char *key;
