@@ -8,4 +8,4 @@ hashmap:
 
 all:
 	gcc -o obj/main test/main.c src/list.c src/hm.c src/mythread.c
-	./obj/main
+	./obj/main data/in1.txt data/in2.txt data/in3.txt data/in4.txt
