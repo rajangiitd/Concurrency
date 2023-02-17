@@ -25,8 +25,11 @@ int hashmap_put(struct hashmap_s *const hashmap, const char* key, void* data){
 
     // Create element for hashmap
     struct hashmap_element_s *element = (struct hashmap_element_s *) malloc(sizeof(struct hashmap_element_s));
-    // element->key = (char *)key;     //This line "may" help avoid warning.
-    element->key = key; 
+    // element->key = (char *)key;     
+    char* mykey = (char*) malloc(sizeof(char)*strlen(key));
+    strcpy(mykey,key);
+    element->key = mykey;
+
     element->data = data;
 
     // Search if there is a data in linkedlist whose key is same as above key
