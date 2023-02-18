@@ -4,45 +4,42 @@
 
 struct hashmap_s myhashmap;
 struct list my_list_of_contexts;
-static ucontext_t* mymain;
+static ucontext_t mymain;
 int curr = 0;
 
 void mythread_init(){
     // Initialize threads list
     my_list_of_contexts = *list_new();
     hashmap_create(&myhashmap);
-    mymain = (ucontext_t *)malloc(sizeof(ucontext_t));
-    list_add(&my_list_of_contexts, mymain);
-    ucontext_t *mycontext = (ucontext_t *)malloc(sizeof(ucontext_t));
-    list_add(&my_list_of_contexts, mycontext);
 }
     
 ucontext_t* mythread_create(void func(void*), void* arg){
-    struct listentry* my_tail = my_list_of_contexts.tail;
-    ucontext_t* last_context = my_tail->data;
-    printf("%d\n", getcontext(last_context));
-    char* stack = (char*) malloc(2*SZ);  
-    last_context->uc_stack.ss_sp = stack;
-    last_context->uc_stack.ss_size = sizeof(stack);
+    //struct listentry* my_tail = my_list_of_contexts.tail;
+    //ucontext_t* last_context = my_tail->data;
 
     ucontext_t* context = (ucontext_t*) malloc(sizeof(ucontext_t*));  // context pointer
-    list_add(&my_list_of_contexts, context);
-    last_context->uc_link = context;
-    makecontext(last_context, (void (*)()) func, 1, arg);        // Takes 1 argument as arg here
+    printf("%d\n", getcontext(context));
+    char* stack = (char*) malloc(2*SZ);  
+    context->uc_stack.ss_sp = stack;
+    context->uc_stack.ss_size = sizeof(stack);
+    context->uc_link = &mymain;
+    makecontext(context, (void (*)()) func, 1, arg);        // Takes 1 argument as arg here
 
-    return last_context;
+    list_add(&my_list_of_contexts, context);
+    return context;
 }
 
 void mythread_join(){
     printf("In join\n");
-    struct listentry* my_tail = my_list_of_contexts.tail;
-    ucontext_t* last_context = my_tail->data;
-    printf("In join 1\n");
-    //ucontext_t* my_current = (ucontext_t*) malloc(sizeof(ucontext_t*));  // context pointer
+
     struct listentry* my_head = my_list_of_contexts.head;
     printf("In join 2\n");
-    
-    swapcontext(last_context, my_head->data); 
+    while ( my_head != NULL){
+        ucontext_t* target_context = my_head->data;
+        printf("In join 3\n");
+        swapcontext(&mymain, target_context);
+        my_head = my_head->next;}
+
     printf("Came back to end\n");
 }
 
