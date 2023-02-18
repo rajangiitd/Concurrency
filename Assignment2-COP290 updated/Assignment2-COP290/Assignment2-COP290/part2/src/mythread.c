@@ -2,55 +2,50 @@
 #include "../include/hm.h"
 #include "../include/mythread.h"
 
-struct hashmap_s myhashmap;
 struct list my_list_of_contexts;
 static ucontext_t mymain;
-int curr = 0;
+static struct listentry* my_head_for_join;
+static struct listentry* my_head_for_yield;
 
 void mythread_init(){
-    // Initialize threads list
-    my_list_of_contexts = *list_new();
-    hashmap_create(&myhashmap);
+    my_list_of_contexts = *list_new();  // Initialize threads list
 }
     
 ucontext_t* mythread_create(void func(void*), void* arg){
-    //struct listentry* my_tail = my_list_of_contexts.tail;
-    //ucontext_t* last_context = my_tail->data;
-
-    ucontext_t* context = (ucontext_t*) malloc(sizeof(ucontext_t*));  // context pointer
-    printf("%d\n", getcontext(context));
-    char* stack = (char*) malloc(2*SZ);  
+    ucontext_t* context = (ucontext_t*) malloc(sizeof(ucontext_t));  // context pointer
+    getcontext(context);
+    char* stack = (char*) malloc(4*SZ);  
     context->uc_stack.ss_sp = stack;
     context->uc_stack.ss_size = sizeof(stack);
     context->uc_link = &mymain;
     makecontext(context, (void (*)()) func, 1, arg);        // Takes 1 argument as arg here
-
     list_add(&my_list_of_contexts, context);
     return context;
 }
 
 void mythread_join(){
-    printf("In join\n");
+    my_head_for_join = my_list_of_contexts.head;
 
-    struct listentry* my_head = my_list_of_contexts.head;
-    printf("In join 2\n");
-    while ( my_head != NULL){
-        ucontext_t* target_context = my_head->data;
-        printf("In join 3\n");
-        swapcontext(&mymain, target_context);
-        my_head = my_head->next;}
-
-    printf("Came back to end\n");
+    while( my_list_of_contexts.head != NULL){   
+        my_head_for_join = my_list_of_contexts.head;
+        my_head_for_yield = my_head_for_join;                    // track node we are in
+        swapcontext(&mymain, my_head_for_join->data);
+        list_rm(&my_list_of_contexts, my_head_for_join);
+    }
 }
 
 void mythread_yield(){
-    // Perform context switching here
-    // ucontext_t* current = (ucontext_t*) malloc(sizeof(ucontext_t));
-    // getcontext(current);
-    // ucontext_t* next = (ucontext_t*) list_remove(&my_list_of_contexts, 0);
-    // list_add(&my_list_of_contexts, current);
-    // setcontext(next);
-
+    // Perform context switching here      // Lets Assume that the current context was always the head of list
+    if(my_list_of_contexts.head == my_list_of_contexts.tail) return;
+    if(my_head_for_yield == my_list_of_contexts.tail){
+        ucontext_t *curr_context = my_head_for_yield->data;
+        my_head_for_yield = my_list_of_contexts.head;
+        swapcontext(curr_context, my_head_for_yield->data);
+    }else{
+        ucontext_t *curr_context = my_head_for_yield->data;
+        my_head_for_yield = my_head_for_yield->next;
+        swapcontext(curr_context, my_head_for_yield->data);
+    }
 }
 
 struct lock* lock_new(){
