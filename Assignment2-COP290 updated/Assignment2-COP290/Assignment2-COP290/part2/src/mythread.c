@@ -30,7 +30,7 @@ void mythread_join(){
         my_head_for_join = my_list_of_contexts.head;
         my_head_for_yield = my_head_for_join;                    // track node we are in
         swapcontext(&mymain, my_head_for_join->data);
-        list_rm(&my_list_of_contexts, my_head_for_join);
+        list_rm(&my_list_of_contexts, my_head_for_yield);
     }
 }
 
