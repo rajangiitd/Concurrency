@@ -25,13 +25,11 @@ int hashmap_put(struct hashmap_s *const hashmap, const char* key, void* data){
     }
 
     // Create element for hashmap
-    struct hashmap_element_s *element = (struct hashmap_element_s *) malloc(sizeof(struct hashmap_element_s));
-    // element->key = (char *)key;     
+    struct hashmap_element_s *element = (struct hashmap_element_s *) malloc(sizeof(struct hashmap_element_s));     
     char* mykey = (char*) malloc(sizeof(char)*strlen(key));
     strcpy(mykey,key);
-    element->key = mykey;
-
-    element->data = data;
+    element->key = mykey;       // copying key in hashmap hashmap
+    element->data = data;       // saving pointer to data in hashmap
 
     // Search if there is a data in linkedlist whose key is same as above key
     struct list* target_list = hashmap->table[my_hash_value];
@@ -39,14 +37,14 @@ int hashmap_put(struct hashmap_s *const hashmap, const char* key, void* data){
     while(my_head != NULL){
         struct hashmap_element_s *myele = my_head->data;
         if( strcmp(myele->key,key)==0){
-            myele->data = data;
+            myele->data = data;             // Update data if key is same
             return 0;
         }else{
             my_head = (my_head->next);
         }
     }
 
-    // It was not over-written, hence add a new node in linked list 
+    // No key was not over-written, hence add a new node in linked list 
     list_add(target_list, element);
     return 0;
 }   
@@ -85,13 +83,14 @@ void hashmap_iterator(struct hashmap_s* const hashmap, int (*f)(struct hashmap_e
         struct listentry* my_head = target_list->head;
         while (my_head != NULL){
             f(my_head->data);
-            my_head = (my_head->next);
+            my_head = (my_head->next);          // Travel each linked list and call function on each node
         }
     }
 }
 
 int acquire_bucket(struct hashmap_s *const hashmap, const char* key){
     // Acquire lock on a hashmap slot
+
     // Getting hash_value
     int my_hash_value = 0;
     int prime = 31;
@@ -102,11 +101,12 @@ int acquire_bucket(struct hashmap_s *const hashmap, const char* key){
         temp_prime = (temp_prime*prime)%SZ; 
     }
 
-    lock_acquire(hashmap->lk[my_hash_value]);
+    lock_acquire(hashmap->lk[my_hash_value]);   // Acquire the lock
     return 0;
 }
 int release_bucket(struct hashmap_s *const hashmap, const char* key){
        // Release acquired lock
+
     // Getting hash_value
     int my_hash_value = 0;
     int prime = 31;
@@ -117,6 +117,6 @@ int release_bucket(struct hashmap_s *const hashmap, const char* key){
         temp_prime = (temp_prime*prime)%SZ; 
     }
 
-    lock_release(hashmap->lk[my_hash_value]);
+    lock_release(hashmap->lk[my_hash_value]);   // Release the lock
     return 0;
 }
