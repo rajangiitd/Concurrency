@@ -19,7 +19,7 @@ int hashmap_put(struct hashmap_s *const hashmap, const char* key, void* data){
     int prime = 31;
     int temp_prime = 1;
     for(int i=0; key[i] != '\0';i++){
-        my_hash_value += ((int) key[i] - (int)'a' )*temp_prime;
+        my_hash_value += ((int) key[i])*temp_prime;
         my_hash_value = my_hash_value%SZ;
         temp_prime = (temp_prime*prime)%SZ; 
     }
@@ -57,7 +57,7 @@ void* hashmap_get(struct hashmap_s *const hashmap, const char* key){
     int prime = 31;
     int temp_prime = 1;
     for(int i=0; key[i] != '\0';i++){
-        my_hash_value += ((int) key[i] - (int)'a' )*temp_prime;
+        my_hash_value += ((int) key[i] )*temp_prime;
         my_hash_value = my_hash_value%SZ;
         temp_prime = (temp_prime*prime)%SZ; 
     }
@@ -96,7 +96,7 @@ int acquire_bucket(struct hashmap_s *const hashmap, const char* key){
     int prime = 31;
     int temp_prime = 1;
     for(int i=0; key[i] != '\0';i++){
-        my_hash_value += ((int) key[i] - (int)'a' )*temp_prime;
+        my_hash_value += ((int) key[i] )*temp_prime;
         my_hash_value = my_hash_value%SZ;
         temp_prime = (temp_prime*prime)%SZ; 
     }
@@ -112,7 +112,7 @@ int release_bucket(struct hashmap_s *const hashmap, const char* key){
     int prime = 31;
     int temp_prime = 1;
     for(int i=0; key[i] != '\0';i++){
-        my_hash_value += ((int) key[i] - (int)'a' )*temp_prime;
+        my_hash_value += ((int) key[i] )*temp_prime;
         my_hash_value = my_hash_value%SZ;
         temp_prime = (temp_prime*prime)%SZ; 
     }
