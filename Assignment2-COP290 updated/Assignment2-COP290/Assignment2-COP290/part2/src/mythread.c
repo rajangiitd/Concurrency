@@ -39,7 +39,7 @@ void mythread_yield(){
     if(my_list_of_contexts.head == my_list_of_contexts.tail) return;
     if(my_head_for_yield == my_list_of_contexts.tail){
         ucontext_t *curr_context = my_head_for_yield->data;
-        my_head_for_yield = my_list_of_contexts.head;
+        my_head_for_yield = my_head_for_join;
         swapcontext(curr_context, my_head_for_yield->data);
     }else{
         ucontext_t *curr_context = my_head_for_yield->data;
@@ -50,7 +50,9 @@ void mythread_yield(){
 
 struct lock* lock_new(){
        // return an initialized lock object
-       return NULL;
+       struct lock* mylock = (struct lock*) malloc(sizeof(struct lock));
+       mylock->ctx = NULL;
+       return mylock;
 }
 
 void lock_acquire(struct lock* lk){
