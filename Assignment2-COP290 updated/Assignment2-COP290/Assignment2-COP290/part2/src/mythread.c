@@ -58,9 +58,7 @@ struct lock* lock_new(){
 void lock_acquire(struct lock* lk){
     // Set lock. Yield if lock is acquired by some other thread.
     while (lk->ctx !=NULL) mythread_yield();
-    ucontext_t* current = (ucontext_t*) malloc(sizeof(ucontext_t));
-    getcontext(current);
-    lk->ctx = current;
+    lk->ctx = my_head_for_yield->data;
 }
 int lock_release(struct lock* lk){
     lk->ctx = NULL; // Release lock

@@ -6,6 +6,7 @@ int hashmap_create(struct hashmap_s *const out_hashmap){
     // Initialize a hashmap
     for(int i=0;i<SZ;i++){
         out_hashmap->table[i] = list_new(); 
+        out_hashmap->lk[i] = lock_new();
     }
     return 0;
 }   
@@ -90,10 +91,32 @@ void hashmap_iterator(struct hashmap_s* const hashmap, int (*f)(struct hashmap_e
 }
 
 int acquire_bucket(struct hashmap_s *const hashmap, const char* key){
-       // Acquire lock on a hashmap slot
-       return -1;
+    // Acquire lock on a hashmap slot
+    // Getting hash_value
+    int my_hash_value = 0;
+    int prime = 31;
+    int temp_prime = 1;
+    for(int i=0; key[i] != '\0';i++){
+        my_hash_value += ((int) key[i] - (int)'a' )*temp_prime;
+        my_hash_value = my_hash_value%SZ;
+        temp_prime = (temp_prime*prime)%SZ; 
+    }
+
+    lock_acquire(hashmap->lk[my_hash_value]);
+    return 0;
 }
 int release_bucket(struct hashmap_s *const hashmap, const char* key){
        // Release acquired lock
-       return -1;
+    // Getting hash_value
+    int my_hash_value = 0;
+    int prime = 31;
+    int temp_prime = 1;
+    for(int i=0; key[i] != '\0';i++){
+        my_hash_value += ((int) key[i] - (int)'a' )*temp_prime;
+        my_hash_value = my_hash_value%SZ;
+        temp_prime = (temp_prime*prime)%SZ; 
+    }
+
+    lock_release(hashmap->lk[my_hash_value]);
+    return 0;
 }
