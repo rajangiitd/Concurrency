@@ -6,6 +6,9 @@ doc:
 clean:
 	rm -f obj/*
 	rm -fr doc/*
+hashmap:
+	gcc -o obj/hashmap_test test/hashmap_test.c src/list.c src/hm.c src/mythread.c
+	./obj/hashmap_test -I include/
 test:
 	gcc -g3 -o obj/main.o test/main_pthreads.c src/list.c src/hm.c src/mythread.c -I include/ -pthread
 	./obj/main.o $(wildcard data/*.txt)

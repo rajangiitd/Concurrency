@@ -1,0 +1,106 @@
+\hypertarget{list_8h}{}\doxysection{include/list.h File Reference}
+\label{list_8h}\index{include/list.h@{include/list.h}}
+
+
+Defines a linked list and its operations.  
+
+
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+Include dependency graph for list.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structlist}{list}}
+\begin{DoxyCompactList}\small\item\em A linked list. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structlistentry}{listentry}}
+\begin{DoxyCompactList}\small\item\em An element in a linked list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{list_8h_a2439cbd6a22b846a91b51aad0511157a}{list\+\_\+rm}} (struct \mbox{\hyperlink{structlist}{list}} $\ast$l, struct \mbox{\hyperlink{structlistentry}{listentry}} $\ast$e)
+\begin{DoxyCompactList}\small\item\em Remove an item from the list. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structlistentry}{listentry}} $\ast$ \mbox{\hyperlink{list_8h_af765588f85d40e377c9bf749077b9865}{list\+\_\+add}} (struct \mbox{\hyperlink{structlist}{list}} $\ast$l, void $\ast$data)
+\begin{DoxyCompactList}\small\item\em Add an item to the list. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structlist}{list}} $\ast$ \mbox{\hyperlink{list_8h_aaeefeb49e551e579788a121e2070b48e}{list\+\_\+new}} ()
+\begin{DoxyCompactList}\small\item\em Return an initialized list. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{list_8h_a4df754b95439918e8813c67771283a40}{is\+\_\+empty}} (struct \mbox{\hyperlink{structlist}{list}} $\ast$l)
+\begin{DoxyCompactList}\small\item\em Check if list is empty or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines a linked list and its operations. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{list_8h_a4df754b95439918e8813c67771283a40}\label{list_8h_a4df754b95439918e8813c67771283a40}} 
+\index{list.h@{list.h}!is\_empty@{is\_empty}}
+\index{is\_empty@{is\_empty}!list.h@{list.h}}
+\doxysubsubsection{\texorpdfstring{is\_empty()}{is\_empty()}}
+{\footnotesize\ttfamily int is\+\_\+empty (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structlist}{list}} $\ast$}]{l }\end{DoxyParamCaption})}
+
+
+
+Check if list is empty or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em l} & Pointer to the list. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if the list is empty, 0 otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{list_8h_af765588f85d40e377c9bf749077b9865}\label{list_8h_af765588f85d40e377c9bf749077b9865}} 
+\index{list.h@{list.h}!list\_add@{list\_add}}
+\index{list\_add@{list\_add}!list.h@{list.h}}
+\doxysubsubsection{\texorpdfstring{list\_add()}{list\_add()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structlistentry}{listentry}}$\ast$ list\+\_\+add (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structlist}{list}} $\ast$}]{l,  }\item[{void $\ast$}]{data }\end{DoxyParamCaption})}
+
+
+
+Add an item to the list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em l} & Pointer to the list. \\
+\hline
+{\em data} & Pointer to the data to be stored in the new list element. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the newly created list element. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{list_8h_aaeefeb49e551e579788a121e2070b48e}\label{list_8h_aaeefeb49e551e579788a121e2070b48e}} 
+\index{list.h@{list.h}!list\_new@{list\_new}}
+\index{list\_new@{list\_new}!list.h@{list.h}}
+\doxysubsubsection{\texorpdfstring{list\_new()}{list\_new()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structlist}{list}}$\ast$ list\+\_\+new (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Return an initialized list. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to the initialized list. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{list_8h_a2439cbd6a22b846a91b51aad0511157a}\label{list_8h_a2439cbd6a22b846a91b51aad0511157a}} 
+\index{list.h@{list.h}!list\_rm@{list\_rm}}
+\index{list\_rm@{list\_rm}!list.h@{list.h}}
+\doxysubsubsection{\texorpdfstring{list\_rm()}{list\_rm()}}
+{\footnotesize\ttfamily void list\+\_\+rm (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structlist}{list}} $\ast$}]{l,  }\item[{struct \mbox{\hyperlink{structlistentry}{listentry}} $\ast$}]{e }\end{DoxyParamCaption})}
+
+
+
+Remove an item from the list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em l} & Pointer to the list. \\
+\hline
+{\em e} & Pointer to the element to be removed from the list. \\
+\hline
+\end{DoxyParams}
