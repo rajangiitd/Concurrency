@@ -1,0 +1,333 @@
+\documentclass[12pt]{article}
+% Font selection
+\usepackage[T1]{fontenc}
+\usepackage{newtxmath,newtxtext}
+% line spacing
+\renewcommand{\baselinestretch}{1} 
+
+\usepackage{graphicx}
+\usepackage{titlepic}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[a4paper, left=1.5cm, right=1.5cm, top=1.5cm,bottom=1.5cm]{geometry}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{wrapfig}
+\usepackage{natbib}
+\usepackage[section]{placeins} 
+\usepackage{float}
+\usepackage{setspace}
+
+\documentclass{article}
+\usepackage[backend=biber]{biblatex}
+
+\addbibresource{ref.bib} %Import the bibliography file
+
+\usepackage{amsmath}
+
+\title{
+        \includegraphics[width=5cm]{images/iitlogo-21.jpg}
+      {
+          
+          \\ \textbf{INDIAN INSTITUTE OF TECHNOLOGY DELHI}
+          \\ \textbf{}
+          \\ \textbf{COP290}
+          \\ \textbf{DESIGN PRACTICES}
+          \\ \textbf{}
+          \\ \textbf{REPORT}\\\textbf{}
+          \medium
+    	  \\ \textbf{LAB-2}
+    	  \\ \textbf{}
+
+    	  \\
+	  }
+}
+% ---- removing date spacing
+\date{\vspace{-12ex}}
+
+\begin{document}
+\begin{spacing}{1.2}
+	\maketitle
+	% --- author names come here
+    \item \textbf{Team Name - Team\_Akatsuki}
+    \\
+    \item \textbf{Rajan Gupta - 2018ME20710  Token- 30/30}
+    \item \textbf{Ayush Singh - 2020CS10331 Token-0/30}
+    \item \textbf{Vibhanshu Lodhi - 2020CS10409 Token- 0/30}
+    \\
+    \\
+    \item \textbf{Contributions:-} 
+    \item \textbf{Rajan Gupta - All parts of the submission.}
+    \item \textbf{Ayush Singh - No contribution.}
+    \item \textbf{Vibhanshu Lodhi - No contribution.}
+    
+  
+	\newpage
+    
+    % ---- Add * just after section
+    \section*{Part 1- Storing/restoring contexts}
+    \textbf{Task:} \\ 
+    The main function has an array of numbers. Now we have to check if a given number is less than 40 and not a prime number and returns the square of that number. It should be done without using loops in code. \\
+The idea here is to store a context (i.e, CPU registers) inside the conjecture method and whenever an assertion fails, restore the stored context and continue the process with next element of the array. 
+Only the first value that satisfies all the assertions should get fully processed and the program ends. \\
+    \textbf{Code:} \\
+    \includegraphics[width=18cm]{images/1.jpg.jpg} \\
+    \textbf{Approach of Testing}:-
+The approach of testing was based on checking all the possible cases i.e. several testcases.\\
+
+    \newpage
+    
+\textbf{Testcase:-1 Empty Array}\\
+\includegraphics[width=10cm]{images/2.jpg}\\
+{Program outputs nothings.}\\
+
+
+
+\textbf{Testcase:-2}\\
+\includegraphics[width=10cm]{images/3.jpg}\\
+Program Outputs 39*39 = 1521 (As expected)\\
+
+
+\textbf{Testcase:-3}\\
+\includegraphics[width=10cm]{images/4.jpg}\\
+Program Outputs 25*25 = 625 (As expected)\\
+
+    \newpage
+    
+\textbf{Testcase 4:- Array of size 1 lakh with all numbers greater than equal to 40}\\
+\includegraphics[width=15cm]{images/5.jpg}\\
+Program Outputs nothing (As expected)\\
+
+
+
+\textbf{Testcase 5:- Array of size 1 lakh like testcase 4, but two fully processable values}\\
+\includegraphics[width=15cm]{images/6.jpg}\\
+{Program processes only 25 and gives 625.}\\
+
+    \newpage
+
+\section*{Part 2- Concurrency}
+
+\textbf{Task}: Given N text files, you need to find the count of every word summed across all the files. This must be accomplished using “multithreading” and all the results should be stored in a hashmap.\\
+\\
+\textbf{Checkpoint 1}- hashmap\\
+\\
+\textbf{Approach}:- \\
+First a linked list has been coded in list.c file and then in order to implement hashmap, the approach called as Hashing with Chaining as been used, i.e. whenever two keys collide in same table slot, they are simply inserted in the linked list whose pointer is stored in the table slot. 
+In order to hash the key, polynomial hashing using the ASCII value of each char in string has been implemented.\\
+\\
+\textbf{Outputs:-}\\
+\textbf{list\_test.c output:-}\\
+\includegraphics[width=16cm]{images/7.jpg}\\
+The output is as expected.\\
+When one node was in, is\_empty() returned 0\\
+When both nodes were removed, is\_empty() returned 1\\
+
+    \newpage
+
+
+\textbf{Hashmap\_test.c output:-}\\
+\includegraphics[width=20cm]{images/8.png}\\
+The output is as expected.\\
+
+\newpage
+
+Now, all the thread part inside the main.c was commented, i.e. the main code runs on each text file (i.e. read 1 file completely at a time and go on next), to test the correctness of hashmap.\\
+
+\includegraphics[width=16cm]{images/10.png}\\
+Again the output is as expected, since file contexts were read completely one by one and the content of 4 files was as follows:\\
+\includegraphics[width=14cm]{images/11.png}\\
+
+    \newpage
+
+As testcase-2, the contents were modified as follows and the code was run again.\\
+
+\includegraphics[width=14cm]{images/12.png}\\
+\includegraphics[width=18cm]{images/13.png}\\
+The output of the program is again as expected.\\
+
+
+\textbf{Checkpoint2:- threads}
+
+\textbf{Approach:-}\\
+In this part, implementation of functions like creating threads(stacks/contexts) and storing those contexts and in each context, a task like function call was stored, and  on call to join the threads, start running each context made earlier one by one. \\
+\textbf{Outputs:-}\\
+To test this part, only thread yielding and acquire\_bucket, release\_bucket part was commented from main code. \\
+Testcase1:-\\
+\includegraphics[width=14cm]{images/14.png}\\
+Output:-\\
+\includegraphics[width=14cm]{images/15.png}\\
+The program is as expected.
+
+
+    \newpage
+
+Testcase2:-\\
+
+\includegraphics[width=16cm]{images/16.png}\\
+Output:-\\
+\includegraphics[width=16cm]{images/17.png}\\
+The output is again as expected.\\
+
+    \newpage
+
+\textbf{Checkpoint3:- locks}\\
+
+\textbf{Approach:-} \\
+Implementation of yield function was also done in thread library. Whenever a context calls yield, it stores itself and go to next stored context and start running it. For e.g., while file1 reading was going on, and let program was somewhere in middle of file1, on call of yield, it will save itself, and go to context of file2. On other call of yield from the later context, program will come back to file1, and restore the context and start running from where it had left.
+\\
+Outputs:-\\
+In order to run it, only the acquire bucket and release bucket part was commented from the main code.\\
+
+\textbf{Testcase 1:} Each word occurs only once among all files.\\
+\includegraphics[width=12cm]{images/18.png}\\
+\textbf{Output:-}\\
+\includegraphics[width=14cm]{images/19.png}\\
+The output of program is as expected.\\
+    \newpage
+\textbf{Testcase 2:} Each word occurs only once among all files and blank files also present.\\
+\includegraphics[width=14cm]{images/20.png}\\
+\textbf{Output:-}\\
+\includegraphics[width=14cm]{images/21.png}\\
+The output of the program is as expected.\\
+    \newpage
+\textbf{Testcase 3:}  Repetition in keys\\
+\includegraphics[width=14cm]{images/22.png}\\
+\textbf{Output:-}\\
+\includegraphics[width=14cm]{images/23.png}\\
+The counts in output of the program is lesser than correct values!\\
+    \newpage
+
+\textbf{Testcase 4:} Repetition in keys along with blank files\\
+\includegraphics[width=14cm]{images/24.png}\\
+Output:-\\
+\includegraphics[width=14cm]{images/25.png}\\
+The count in program output is lesser than correct output!\\
+    \newpage
+
+\textbf{Reasoning for testcase 3 and 4:-} \\
+In Testcase 3 and Testcase 4, the output of the code has varied from what the correct counts should have been. It is because of the race condition. A race condition is an undesirable situation that occurs when a system attempts to perform two or more operations at same time, whereas because of nature of system, the operations should had been done in proper sequence to do the task correctly.\\
+The reason behind it can be understood via following explanation of test case 4 as follows:\\
+\\
+First, it reads the file1 and reads hello. Since previous count of hello was 0, it doesnt yield and puts (hello,1) in hashmap.\\
+Now it reads hello from file 1 and yields to file 2, which was blank file and the context ends directly and we restore the file1 context.\\
+Now we do put (hello,2) in hashmap and context of file 1 also ends.\\
+Now we have two contexts of file 3 and file 4 left in our thread and we go two file 3 and read hello with count 2 and store this "2" in variable c and yields.\\
+Now we go in context4, read hello, stores its count "2" in its c variable, and yields.\\
+It goes to context3 and since yield was in for-loop of size 2, it yields again\\
+It goes to context4 and since here also yield was in the for-loop of size 2, it yields again.\\
+Now in context3, it put the hello with count "3" and read hello again and yields\\
+Now in context4, since c variable stored count as "2" , it puts (hello,2+1) in hashmap, whereas context3 already updated the count to 3 and it should have been (hello,4) by the context4 for correctness.\\
+Hence due to the flaw in code occurring due to race conditions, the count we get is less than what is expected from a correct program.\\
+\\
+In order to resolve the race conditions, locks are implemented and locks gives a guarantee that only 1 context will be able to enter the lock. For e.g. when context3 in above code has read hello and yielded, Now context 4 will read hello and won’t be able to acquire the same lock and yield back to context3. Now context3 will first put it as 3 and free the lock, and then context4 will be able to acquire the same lock and will put (hello,3+1) which will be correct.\\
+In this way, we won’t be encountering the above race condition and our program will give correct outputs.\\
+\\
+    \newpage
+\textbf{Testcase 3:-} Repetition in keys (With both yield and locks)\\
+\includegraphics[width=20cm]{images/26.png}\\
+\textbf{Output:-}\\
+\includegraphics[width=20cm]{images/27.png}\\
+The output of the program is as expected.
+    \newpage
+
+\textbf{Testcase 4:} Repetition in keys along with blank files (With both yield and locks)\\
+\includegraphics[width=20cm]{images/28.png}\\
+Output:-\\
+\includegraphics[width=20cm]{images/29.png}\\
+The output of the program is as expected.
+    \newpage
+
+
+\textbf{Part 3- pThreads} \\
+\textbf{Problem statement:} \\
+Now take the code from part 2 and place your files inside part 3 folder. Ensure that you are using mythread.c provided by us rather than your own mythread.c file.\\
+\\
+ Do a comparative analysis between the runtimes of part 2 and part 3. What happens when you change the number of input files? Size of input files? What if each file has the same word repeated many times? \\
+ Generate a documentation for your code using doxygen.\\
+Write a report using LaTex where you would plot graphs (Time vs File Size) and also generate tables for the same.\\
+\\
+\textbf{Aim:} \\
+The aim of the study has been to compare the performance of Concurrency i.e. running single thread at a time vs the performance offered by parallelism i.e. running more than 1 thread in parallel.\\
+\\
+\textbf{Graph 1:}\\
+First we will see how both the threads performs when we start increasing the number of files.\\
+All the print statements in the code of both the testing scripts have been commented.\\
+For this, we are reading a list of 250k unique words and generating files with each having 5 lakh randomly selected words of length between 8 to 12 characters making each file 5.5 Mb. Hence we can claim that within a file, there shouldn’t be too much repetition.\\
+First we compared with \textbf{yield as off}\\
+\\
+\includegraphics[width=14cm]{images/30.png}\\
+\\
+A python script was used to make i files when i range from 1 to 5 and time for make run  (concurrency) and make test(parallelism) was recorded and plotted.\\
+\\
+
+\includegraphics[width=12cm]{images/31.png}\\
+
+The trend is visible that the performance of parallelism is better than performance of concurrency, as the number of files increases.\\
+\\
+Now plotting the results for when \textbf{yield was on} keeping other parameters same, we get the following results\\
+\\
+\includegraphics[width=12cm]{images/32.png}\\
+\includegraphics[width=12cm]{images/33.png}\\
+Again, its visible that parallelism is solving the problem faster as compared to concurrency. \\
+Also as compared to yield off, program now taking more time, which was as expected.\\
+\\
+The table for above graphs where x-axis column denotes \textbf{number of input files} and the time taken by the program in \textbf{seconds}. \\
+\includegraphics[width=16cm]{images/image.png}\\
+
+\textbf{Graph 2:}\\
+\\
+Now, in order to see the performance of concurrency vs parallelism with respect to file size, 250000 unique words were generated from the following python script to create input testfiles for experiments.\\
+\\
+\includegraphics[width=14cm]{images/34.png}\\
+\newpage
+
+Then number of data files in data folder was fixed to be 3 and a loop was run on concurrency and parallelism that, number of words in each file is increasing in each iteration. \\
+In each experiment we kept same number of words in each file, ranging from 1 lakh to 5 lakh with step size 1 lakh words.\\
+
+Now with \textbf{yield On}, we got the following outputs\\
+\includegraphics[width=16cm]{images/35.png}\\
+\\
+\includegraphics[width=14cm]{images/36.png}\\
+
+Now with \textbf{yield as off} in both code keeping parameters same, we gets\\
+\includegraphics[width=16cm]{images/37.png}\\
+\\
+\includegraphics[width=16cm]{images/38.png}\\
+It is clearly noticeable that the time of yield off is less as compared to yield on the case, as well as concurrency took more time than parallelism.\\
+\newpage
+The table for above graphs where x-axis column denotes \textbf{size of input files} and the time taken by the program in \textbf{seconds}. \\
+\includegraphics[width=15cm]{images/image1.png}\\
+
+\textbf{Graph 3:}\\
+In order to see, how both performs when number of repetitions is significant in the file.\\
+In data folder, only 2 file is taken with \textbf{total} 6 lakh words each.\\
+Now, whenever a word was written to a file, it was repeatedly written x times. Experiment was done for x = 10k, 20k, 30k, 40k and 50k.\\
+Again the word was selected from pool of 250k words generated in above cases.\\
+\\
+Outputs with \textbf{yield off:-}\\
+\\
+\includegraphics[width=17cm]{images/39.png}\\
+\includegraphics[width=13cm]{images/40.png}\\
+
+Outputs with \textbf{yield on:-}\\
+
+Since, yielding was going too long to run with the above parameters, 6000 words each file with x = 100,200,300,400,500 was chosen as \textbf{new parameters} for this part\\
+\includegraphics[width=18cm]{images/41.png}\\
+\includegraphics[width=17cm]{images/42.png}\\
+
+The table for above graphs where x-axis column denotes \textbf{number of repetitions} and the time taken by the program in \textbf{seconds} for \textbf{different parameters} as specified above.\\
+\includegraphics[width=16cm]{images/image2.png}\\
+
+    \newpage
+
+\section*{My Key Learnings:-}
+I learnt a lot of things from lab-2 including- \\
+C \\
+contexts \\
+stack memory \\
+heap memory \\
+git \\ concurrency \\ race condition \\ locking \\ latex \\doxygen etc.
+    
+\end{spacing}
+\end{document}
